@@ -1,6 +1,8 @@
 package com.jcaseydev;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -34,11 +36,11 @@ public class Main {
         listDirectoryRecursive();
         break;
       case 4:
-        // TODO: Delete file
+        // Delete file
         deleteFile(input);
         break;
       case 5:
-        // TODO: display file in hex view
+        // TODO: display offset of hex
         displayFileHex(input);
         break;
       case 6:
@@ -106,11 +108,38 @@ public class Main {
     }
   }
 
-  private static void displayFileHex(Scanner input) {}
+  private static void displayFileHex(Scanner input) {
+    if (directoryPath == null) {
+      System.out.println("Enter Directory using Option 1");
+      return;
+    }
+    String filePath = directoryPath + "/" + input.nextLine();
+    try (FileInputStream fileInputStream = new FileInputStream(filePath)) {
+      int i = 0;
+      int count = 0;
+
+      while ((i = fileInputStream.read()) != -1) {
+        System.out.printf("%02x ", i);
+        count++;
+
+        if (count == 16) {
+          System.out.println("");
+          count = 0;
+        }
+      }
+      System.out.println("");
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } ;
+  }
 
   private static void encryptXor(Scanner input) {}
 
-  private static void decryptXor(Scanner input) {}
+  private static void decryptXor(Scanner input) {
+
+  }
 
     public static void main(String[] args) {
 	    // write your code here
